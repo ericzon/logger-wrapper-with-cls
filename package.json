@@ -1,0 +1,20 @@
+{
+  "name": "log-request-ids",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "PORT=3000 node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Eric Lara <ericzon@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "cls-hooked": "^4.2.2",
+    "cuid": "^2.1.4",
+    "express": "^4.16.4",
+    "pino": "^5.11.1",
+    "pino-pretty": "^2.5.0"
+  }
+}
