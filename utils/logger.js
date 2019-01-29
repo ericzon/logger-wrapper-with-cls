@@ -1,5 +1,7 @@
 const pino = require('pino');
-const { createNamespace } = require('cls-hooked');
+const { createNamespace, getNamespace } = require('cls-hooked');
+
+const { REQ_ID, NAMESPACE } = require('../constants');
 
 const logMethodHandler = {
   apply(target, thisArg, argumentList) {
@@ -8,15 +10,18 @@ const logMethodHandler = {
       ((thisArg || {}).createNamespacecls || {}).active || {};
 
     const [context, ...rest] = argumentList;
+    const namespace = getNamespace(NAMESPACE.LOGGER);
+    const reqId = namespace.get(REQ_ID);
+    const reqIdObj = reqId ? { requestId: namespace.get(REQ_ID) } : {};
 
     let finalArgList = argumentList;
     if (typeof context === 'string') {
       // Log was called only with message, no local context
       const message = context;
-      finalArgList = [clsContext, message, ...rest];
+      finalArgList = [{ ...clsContext, ...reqIdObj }, message, ...rest];
     } else {
       // Log was called local context, so we merge it into clsContext
-      const fullContext = Object.assign({}, clsContext, context);
+      const fullContext = Object.assign({}, clsContext, context, reqIdObj);
       finalArgList = [fullContext, ...rest];
     }
 
@@ -71,7 +76,7 @@ function createWrapper({ cls }, pinoInstance) {
 let logger;
 
 function createLogger(opts, destination) {
-  const cls = createNamespace(`logger`);
+  const cls = createNamespace(NAMESPACE.LOGGER);
   const pinoInstance = pino(opts, destination);
 
   logger = createWrapper({ cls }, pinoInstance);

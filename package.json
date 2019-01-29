@@ -1,13 +1,15 @@
 {
   "name": "log-request-ids",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Example of cls showing how to forward request id through application flow.",
   "main": "index.js",
   "scripts": {
-    "start": "PORT=3000 node app.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "cls"
+  ],
   "author": "Eric Lara <ericzon@gmail.com>",
   "license": "ISC",
   "dependencies": {
